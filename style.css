@@ -1,0 +1,35 @@
+.box {
+    display: block;
+    width: 665px;
+    height: 665px;
+}
+
+.boxItem {
+    display: inline-block;
+    margin: 0;
+    width: 20px;
+    height: 20px;
+    border: 1px solid grey;
+    vertical-align: top;
+}
+
+.green {
+    background-color: green;
+}
+
+.red {
+    background-color: red;
+}
+
+.blue {
+    background-color: aqua;
+}
+
+.black {
+    background-color: black;
+}
+
+.yellow{
+    background-color: yellow;
+}
+
