@@ -2,17 +2,6 @@ var n = 0
 var arr = []
 var arr2 = []
 
-var mousedown = 0
-
-document.body.onmousedown = ()=> {
-    mousedown++
-}
-
-document.body.onmouseup = ()=>{
-    mousedown--
-}
-
-
 const arrCheck = [[-1,0],[0,1],[1,0],[0,-1]]
 
 for (let i = 1; i < 901; i++ )
@@ -28,7 +17,7 @@ for (let i = 0; i < arr.length; i++) {
         var newBox = document.createElement('div')
         newBox.setAttribute("id", j + '-' + i )
         newBox.setAttribute("onclick", "green(this)")
-        newBox.setAttribute("onmouseover", "black(this)")
+        newBox.setAttribute("onmouseover", "black(this, event)")
         newBox.setAttribute("oncontextmenu", "red(this)")
         newBox.classList.add("boxItem")
         document.querySelector('.box').appendChild(newBox)
@@ -42,20 +31,30 @@ function green(xx){
      
         if (currentGreen){currentGreen.classList.remove("green")}
         xx.classList.add("green");  
-        currentGreen = xx; 
+        xx.classList.remove("black");
+        currentGreen = xx;
+
+        if (currentGreen && currentRed) {
+            clearPath();
+            pathfind();
+        }
    }
 
- function black(xx){
-    if (mousedown > 0)
-        xx.classList.add("black")
+ function black(element, event){
+    if (event.buttons == 1) {
+        element.classList.add("black")
+    }
  }  
 
 function red(xx){
     if (currentRed){currentRed.classList.remove("red")}
     xx.classList.add("red")
+    xx.classList.remove("black");
     currentRed = xx
-    pathfind()
-    
+    if (currentGreen && currentRed) {
+        clearPath();
+        pathfind();
+    }
 }
 
 
@@ -63,6 +62,7 @@ function red(xx){
 var queue = []
 
 function pathfind() {
+    queue = [];
     var greenBox = document.querySelector(".green")
     var redBox = document.querySelector(".red")
     var redBoxCordX = redBox.id.slice(0, redBox.id.indexOf("-"))
@@ -112,7 +112,15 @@ function pathfind() {
         backtrack = document.getElementById(keyValue)
         if (!backtrack.classList.contains("green")) {backtrack.classList.add("yellow")}
     }
+}
 
-    
-
+function clearPath() {
+    var gridElements = document.querySelector('.box').childNodes;
+    gridElements.forEach(function(gridElement){
+        gridElement.classList.remove("checked");
+        gridElement.classList.remove("blue");
+        gridElement.classList.remove("yellow");
+        gridElement.removeAttribute('distance');
+        gridElement.removeAttribute('key');
+    });
 }
