@@ -1,6 +1,7 @@
 var n = 0
 var arr = []
 var arr2 = []
+var speed = document.getElementById("speed")
 
 const arrCheck = [[-1,0],[0,1],[1,0],[0,-1]]
 
@@ -57,12 +58,20 @@ function red(xx){
     }
 }
 
+function resolveTimer() {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve('resolved');
+      }, speed.value);
+    });
+  }
 
 
 var queue = []
 
-function pathfind() {
+async function pathfind() {
     queue = [];
+    
     var greenBox = document.querySelector(".green")
     var redBox = document.querySelector(".red")
     var redBoxCordX = redBox.id.slice(0, redBox.id.indexOf("-"))
@@ -72,7 +81,7 @@ function pathfind() {
     tracker.classList.add("checked")
    
     while (tracker.id != location) {
-        
+        const result = await resolveTimer();
         var trackerX = tracker.id.slice( 0, tracker.id.indexOf("-") )
         var trackerY = tracker.id.slice( tracker.id.indexOf("-") +1 )
 
@@ -89,16 +98,17 @@ function pathfind() {
                 mathArrY = mathArrY.sort((a,z)=>z-a)
                 
                 var mathResult = (mathArrX[0] - mathArrX[1]) + (mathArrY[0] - mathArrY[1])
-                console.log(mathResult);
+                
                 document.getElementById(idChanger).setAttribute("distance", mathResult)
+                
                 queue.push([mathResult,idChanger])
-                queue[0][0]
+                
             }
             
          
         }
         queue = queue.sort((a,z)=>a[0]-z[0])
-        console.log(queue);
+        
         
         tracker = document.getElementById(queue.shift()[1])
          if (!tracker.classList.contains("red"))

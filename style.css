@@ -33,3 +33,10 @@
     background-color: yellow;
 }
 
+.speed{
+    padding: 5px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color:rgb(27, 6, 48);
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
